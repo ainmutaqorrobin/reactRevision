@@ -4,8 +4,8 @@ function App() {
   return (
     <div>
       {" "}
-      <Post />
-      <Post />
+      <Post author="Ain Mutaqorrobin" body="terlalu kacak" />
+      <Post author="Mus'ab musaimmar" body="terlalu simple" />
     </div>
   );
 }
