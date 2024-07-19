@@ -2,11 +2,31 @@ import { useState } from "react";
 import styles from "./NewPost.module.css";
 
 export default function NewPost(props) {
+  const [enteredBody, setEnteredBody] = useState("");
+  const [enteredAuthor, setEnteredAuthor] = useState("");
+
+  function authorChangeHandler(event) {
+    setEnteredAuthor(event.target.value);
+  }
+  function bodyChangeHandler(event) {
+    setEnteredBody(event.target.value);
+  }
+
+  function submitHandler(event) {
+    event.preventDefault();
+    const postData = {
+      body: enteredBody,
+      author: enteredAuthor,
+    };
+    props.onAddPost(postData);
+    props.onCancel();
+  }
+
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={submitHandler}>
       <p>
         <label htmlFor="body">Text</label>
-        <textarea id="body" required rows={3} onChange={props.onBodyChange} />
+        <textarea id="body" required rows={3} onChange={bodyChangeHandler} />
       </p>
       <p>
         <label htmlFor="name">Your Name</label>
@@ -14,8 +34,14 @@ export default function NewPost(props) {
           type="text"
           id="name"
           required
-          onChange={props.onAuthorChange}
+          onChange={authorChangeHandler}
         />
+      </p>
+      <p className={styles.actions}>
+        <button type="button" onClick={props.onCancel}>
+          Cancel
+        </button>
+        <button>Submit</button>
       </p>
     </form>
   );
