@@ -4,25 +4,20 @@ import Post from "./Post";
 import styles from "./PostList.module.css";
 import Modal from "./Modal";
 
-export default function PostList() {
-  const [modalVisible, setModalVisible] = useState(true);
+export default function PostList({ isPosting, onStopPosting }) {
   const [enteredBody, setEnteredBody] = useState("");
   const [enteredAuthor, setEnteredAuthor] = useState("");
+  let modalContent;
 
-  function modalHandler() {
-    setModalVisible(false);
+  function authorChangeHandler(event) {
+    setEnteredAuthor(event.target.value);
   }
   function bodyChangeHandler(event) {
     setEnteredBody(event.target.value);
   }
-  function authorChangeHandler(event) {
-    setEnteredAuthor(event.target.value);
-  }
-
-  let modalContent;
-  if (modalVisible) {
+  if (isPosting) {
     modalContent = (
-      <Modal onClose={modalHandler}>
+      <Modal onClose={onStopPosting}>
         <NewPost
           onAuthorChange={authorChangeHandler}
           onBodyChange={bodyChangeHandler}
@@ -30,9 +25,10 @@ export default function PostList() {
       </Modal>
     );
   }
+
   return (
     <>
-      {modalVisible ? modalContent : null}
+      {isPosting ? modalContent : null}
       <ul className={styles.posts}>
         <Post author={enteredAuthor} body={enteredBody} />
         <Post author="ain" body="terlalu simple" />
