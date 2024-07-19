@@ -6,12 +6,15 @@ import Modal from "./Modal";
 
 export default function PostList({ isPosting, onStopPosting }) {
   const [posts, setPosts] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     async function fetchPosts() {
+      setIsFetching(true);
       const response = await fetch("http://localhost:8080/posts");
       const responseData = await response.json();
       setPosts(responseData.posts);
+      setIsFetching(false);
     }
 
     fetchPosts();
@@ -37,7 +40,7 @@ export default function PostList({ isPosting, onStopPosting }) {
       </Modal>
     );
   }
-  posts.length > 0
+  !isFetching && posts.length > 0
     ? (postContent = (
         <ul className={styles.posts}>
           {posts.map((post, index) => (
@@ -51,7 +54,12 @@ export default function PostList({ isPosting, onStopPosting }) {
           <p>Start adding some!</p>
         </div>
       ));
-
+  isFetching &&
+    (postContent = (
+      <div style={{ textAlign: "center", color: "white" }}>
+        <p>Loading post...</p>
+      </div>
+    ));
   return (
     <>
       {isPosting ? modalContent : null}
