@@ -5,9 +5,13 @@ import styles from "./PostList.module.css";
 import Modal from "./Modal";
 
 export default function PostList() {
+  const [modalVisible, setModalVisible] = useState(true);
   const [enteredBody, setEnteredBody] = useState("");
   const [enteredAuthor, setEnteredAuthor] = useState("");
 
+  function modalHandler() {
+    setModalVisible(false);
+  }
   function bodyChangeHandler(event) {
     setEnteredBody(event.target.value);
   }
@@ -15,14 +19,20 @@ export default function PostList() {
     setEnteredAuthor(event.target.value);
   }
 
-  return (
-    <>
-      <Modal>
+  let modalContent;
+  if (modalVisible) {
+    modalContent = (
+      <Modal onClose={modalHandler}>
         <NewPost
           onAuthorChange={authorChangeHandler}
           onBodyChange={bodyChangeHandler}
         />
       </Modal>
+    );
+  }
+  return (
+    <>
+      {modalVisible ? modalContent : null}
       <ul className={styles.posts}>
         <Post author={enteredAuthor} body={enteredBody} />
         <Post author="ain" body="terlalu simple" />
