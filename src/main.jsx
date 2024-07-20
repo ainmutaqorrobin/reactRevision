@@ -4,13 +4,20 @@ import App from "./App";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NewPost from "./components/NewPost";
+import MainLayout from "./routes/MainLayout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/",
+        element: <App />,
+      },
+      { path: "/create-post", element: <NewPost /> },
+    ],
   },
-  { path: "/create-post", element: <NewPost /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
