@@ -5,17 +5,6 @@ import { useLoaderData } from "react-router-dom";
 export default function PostList() {
   const posts = useLoaderData();
 
-  function addPostHandler(postData) {
-    fetch("http://localhost:8080/posts", {
-      method: "POST",
-      body: JSON.stringify(postData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    setPosts((existingPosts) => [postData, ...existingPosts]);
-  }
-
   let postContent;
 
   posts.length > 0
