@@ -10,8 +10,13 @@ export default function PostList() {
   posts.length > 0
     ? (postContent = (
         <ul className={styles.posts}>
-          {posts.map((post, index) => (
-            <Post key={index} body={post.body} author={post.author} />
+          {posts.map((post) => (
+            <Post
+              key={post.id}
+              id={post.id}
+              body={post.body}
+              author={post.author}
+            />
           ))}{" "}
         </ul>
       ))
